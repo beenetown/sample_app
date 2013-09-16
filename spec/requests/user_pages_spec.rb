@@ -62,7 +62,18 @@ describe "User pages" do
     before { visit signup_path }
 
     it { should have_content('Sign up') } 
-    it { should have_title(full_title('Sign up')) } 
+    it { should have_title(full_title('Sign up')) }
+
+    describe "when signed-in" do
+      let(:user) { FactoryGirl.create(:user) }
+      before do
+        sign_in user
+        visit signup_path
+      end
+
+      it { should have_content('Welcome') } 
+    end
+
   end
 
   describe "signup" do
@@ -82,7 +93,7 @@ describe "User pages" do
         fill_in "Name",         with: "Example User"
         fill_in "Email",        with: "user@example.com"
         fill_in "Password",     with: "foobar"
-        fill_in "Confirmation", with: "foobar"      
+        fill_in "Confirm Password", with: "foobar"      
       end
 
       it "should create a user" do
@@ -135,6 +146,18 @@ describe "User pages" do
       it { should have_link('Sign out', href: signout_path) }
       specify { expect(user.reload.name).to eq new_name }
       specify { expect(user.reload.email).to eq new_email }
+    end
+
+    describe "forbidden attributes" do
+      let(:params) do
+        { user: { admin: true, password: user.password, 
+                  password_confirmation: user.password } }
+      end
+      before do
+        sign_in user, no_capybara: true
+        patch user_path(user), params
+      end
+      specify { expect(user.reload).not_to be_admin }
     end
   end
 end
