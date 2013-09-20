@@ -32,6 +32,32 @@ describe "Static pages" do
           expect(page).to have_selector("li##{item.id}", text: item.content)
         end
       end
+
+      describe "should not have delete links for other users' posts" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before do
+          FactoryGirl.create(:micropost, user: other_user) 
+          visit user_path(other_user)
+        end
+
+        it { should_not have_link('delete') }
+      end
+
+      it "should have a sidebar micropost count with proper pluralization" do
+        expect(page).to have_content('2 microposts') 
+        click_link "delete", match: :first 
+        expect(page).to have_content('1 micropost') 
+      end
+
+      describe "should have a micropost feed with pagination" do
+        before do 
+          31.times { FactoryGirl.create(:micropost, user: user) } 
+          visit root_path
+        end
+        after(:all) { Micropost.delete_all }
+
+        it { should have_selector('div.pagination') }
+      end
     end
   end
 
