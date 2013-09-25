@@ -162,20 +162,32 @@ describe User do
       let(:unfollowed_post) do
         FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))
       end
-      let(:followed_user) { FactoryGirl.create(:user) }
+      
+      let(:reply) do 
+        FactoryGirl.create(:micropost, 
+          in_reply_to: '@' + @user.id.to_s + '-' + @user.name.split.join('-')) 
+      end
+      
+      let(:followed_user) { FactoryGirl.create(:user, name: 'Followed User') }
 
       before do
         @user.follow!(followed_user)
-        3.times { followed_user.microposts.create!(content: "Lorem ipsum") }
+        3.times { |n| followed_user.microposts.create!(content: "Lorem ipsum #{n}") }
       end
 
       its(:feed) { should include(newer_micropost) }
       its(:feed) { should include(older_micropost) }
       its(:feed) { should_not include(unfollowed_post) }
+      its(:feed) { should include(reply) }
       its(:feed) do
         followed_user.microposts.each do |micropost|
           should include(micropost)
         end
+      end
+
+      describe "not involoved in reply" do
+        subject { followed_user }
+        its(:feed) { should_not include(reply) }
       end
     end
   end

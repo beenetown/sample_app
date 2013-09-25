@@ -7,6 +7,7 @@ class MicropostsController < ApplicationController
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
+    @micropost.in_reply_to = @micropost.content.split.first if reply?
     if @micropost.save
       flash[:success] = "Micropost created!"
       redirect_to root_url
@@ -30,5 +31,12 @@ class MicropostsController < ApplicationController
     def correct_user
       @micropost = current_user.microposts.find_by(id: params[:id])
       redirect_to root_url if @micropost.nil?
+    end
+
+    def reply?
+      is_at = @micropost.content.split(//).first 
+      if is_at == '@'
+        true
+      end
     end
 end

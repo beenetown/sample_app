@@ -17,7 +17,6 @@ class User < ActiveRecord::Base
   has_secure_password            
 
   def feed
-    #preliminary implementation
     Micropost.from_users_followed_by(self)
   end
 
