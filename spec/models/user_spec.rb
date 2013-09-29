@@ -184,6 +184,11 @@ describe User do
         end
       end
 
+      describe "user being replied to" do
+        subject { followed_user }
+        its(:feed) { should include(reply) }
+      end
+      
       describe "following user but not involved with reply" do
         let(:third_user) { FactoryGirl.create(:user, name: 'Blah Blah') }
         before { third_user.follow!(@user) }

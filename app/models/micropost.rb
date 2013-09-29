@@ -7,8 +7,9 @@ validates :content, presence: true, length: { maximum: 140 }
   def self.from_users_followed_by(user)
     followed_user_ids = "SELECT followed_id FROM relationships 
                           WHERE follower_id = :user_id"
-    where("user_id IN (#{followed_user_ids}) OR user_id = :user_id", 
-          user_id: user).in_reply_to(user)
+    where("user_id IN (#{followed_user_ids}) OR user_id = :user_id OR in_reply_to = :user_name", 
+          user_id: user,
+          user_name: "@#{user.id.to_s}-#{user.name.split.join('-')}").in_reply_to(user)
   end
 
   def self.in_reply_to(user)
