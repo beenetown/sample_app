@@ -162,13 +162,12 @@ describe User do
       let(:unfollowed_post) do
         FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))
       end
-      
-      let(:reply) do 
-        FactoryGirl.create(:micropost, 
-          in_reply_to: '@' + @user.id.to_s + '-' + @user.name.split.join('-')) 
-      end
-      
       let(:followed_user) { FactoryGirl.create(:user, name: 'Followed User') }
+
+      let(:reply) do 
+        FactoryGirl.create(:micropost, user_id: @user.id, 
+          in_reply_to: '@' + followed_user.id.to_s + '-' + followed_user.name.split.join('-')) 
+      end
 
       before do
         @user.follow!(followed_user)
@@ -185,8 +184,11 @@ describe User do
         end
       end
 
-      describe "not involoved in reply" do
-        subject { followed_user }
+      describe "following user but not involved with reply" do
+        let(:third_user) { FactoryGirl.create(:user, name: 'Blah Blah') }
+        before { third_user.follow!(@user) }
+
+        subject { third_user }
         its(:feed) { should_not include(reply) }
       end
     end
