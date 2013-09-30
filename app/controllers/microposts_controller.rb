@@ -14,7 +14,7 @@ class MicropostsController < ApplicationController
                                              to_id: message_to,
                                              content: @micropost.content)
       if @message.save
-        flash[:success] = "Message Sent, but not really yet!"
+        flash[:success] = "Message Sent!"
         redirect_to root_url
       else
         flash[:error] = "Message not sent."

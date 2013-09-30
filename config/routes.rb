@@ -4,7 +4,7 @@ SampleApp::Application.routes.draw do
       get :following, :followers
     end
   end
-  resources :messages
+  resources :messages, only: [:show, :destroy]
   resources :sessions,   only: [:new, :create, :destroy]
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]

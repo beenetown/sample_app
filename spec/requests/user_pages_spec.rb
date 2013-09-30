@@ -234,4 +234,12 @@ describe "User pages" do
       it { should have_link(user.name, href: user_path(user)) }
     end
   end
+
+  describe "messages" do
+    describe "should have a message feed" do
+    end
+
+    describe "should have delete links for all messages" do
+    end
+  end
 end

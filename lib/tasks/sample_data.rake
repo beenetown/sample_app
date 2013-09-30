@@ -4,6 +4,7 @@ namespace :db do
     make_users
     make_microposts
     make_relationships
+    make_messages
   end
 end
 
@@ -13,7 +14,7 @@ def make_users
                password: "foobar",
                password_confirmation: "foobar",
                admin: true)
-  99.times do |n|
+  50.times do |n|
     name = Faker::Name.name
     email = "example-#{n+1}@railstutorial.org"
     password = "password"
@@ -26,7 +27,7 @@ end
 
 def make_microposts    
   users = User.all(limit: 6)
-  50.times do
+  35.times do
     content = Faker::Lorem.sentence(5)
     users.each { |user| user.microposts.create!(content: content) }
   end
@@ -40,3 +41,22 @@ def make_relationships
   followed_users.each { |followed| user.follow!(followed) }
   followers.each      { |follower| follower.follow!(user) }
 end
+
+def make_messages
+  users = User.all(limit: 6)
+   users.each do |user|
+    10.times do |n|
+      content = Faker::Lorem.sentence(4)
+      from = user.id
+      to = n + 2
+      content_with =  "d#{n+2}-#{User.find(n+2).name.split.join('-')} #{content}"
+      Message.create(from_id: from,
+                 to_id: to,
+                 content: content_with)
+    end
+  end
+end
+
+
+
+

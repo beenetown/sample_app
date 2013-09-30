@@ -17,6 +17,9 @@
               <span class="content"><%= message.content %></span>
               <span class="timestamp">
                 Sent <%= time_ago_in_words(message.created_at) %> ago.
+                <%= link_to 'delete', message, method: :delete,
+                                             data: { confirm: "You sure?" },
+                                             title: message.content %>
               </span>
             </li>
         <% end %>
