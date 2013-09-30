@@ -184,7 +184,7 @@ describe User do
         end
       end
 
-      describe "user being replied to" do
+      describe "user being replied to but not following" do
         subject { followed_user }
         its(:feed) { should include(reply) }
       end

@@ -14,3 +14,4 @@ jQuery(document).ready(function($) {
     $('#micropost_content').change(updateCountdown);
     $('#micropost_content').keyup(updateCountdown);
 });
+

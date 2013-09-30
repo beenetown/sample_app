@@ -1,0 +1,10 @@
+<h1>Messages</h1>
+<p>  
+  <li>
+    <% @messages.each do |message| %>
+      <%= User.find(message.sent_to).name %>
+      <%= message.content %>
+      <%= message.user.name %>
+    <% end %>
+  </li>
+</p>

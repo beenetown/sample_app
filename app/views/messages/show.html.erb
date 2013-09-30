@@ -1,0 +1,28 @@
+<div class="row">
+  <aside class="span4">
+    <section>
+      <%= render 'shared/user_info' %>
+    </section>
+  </aside>
+  <div class="span8">
+    <h3>Messages</h3>
+    <% if @messages.any? %>
+      <ol class="microposts">
+        <% @messages.each do |message| %>
+            <li id="<%= message.id %>">
+              <%= link_to gravatar_for(User.find(message.from_id)), User.find(message.from_id) %>
+              <span class="user">
+                <%= link_to User.find(message.from_id).name, User.find(message.from_id) %>
+              </span>
+              <span class="content"><%= message.content %></span>
+              <span class="timestamp">
+                Sent <%= time_ago_in_words(message.created_at) %> ago.
+              </span>
+            </li>
+        <% end %>
+      </ol>
+    <% else %>    
+      <p>No messages</p>  
+    <% end %>
+  </div>
+</div>
