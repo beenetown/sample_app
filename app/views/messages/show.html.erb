@@ -10,7 +10,7 @@
       <ol class="microposts">
         <% @messages.each do |message| %>
             <li id="<%= message.id %>">
-              <%= link_to gravatar_for(User.find(message.from_id)), User.find(message.from_id) %>
+              <%= link_to gravatar_for(User.find(message.from_id), size: 52), User.find(message.from_id) %>
               <span class="user">
                 <%= link_to User.find(message.from_id).name, User.find(message.from_id) %>
               </span>
