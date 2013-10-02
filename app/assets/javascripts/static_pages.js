@@ -15,3 +15,7 @@ jQuery(document).ready(function($) {
     $('#micropost_content').keyup(updateCountdown);
 });
 
+function getName(clicky) {
+        $('#micropost_content').val(clicky);
+        $('#micropost_content').focus();
+    };

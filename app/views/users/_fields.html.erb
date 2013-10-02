@@ -1,5 +1,5 @@
 <%= f.label :name %>
-<%= f.text_field :name %>
+<%= f.text_field(:name, autofocus: true) %>
 
 <%= f.label :email %>
 <%= f.text_field :email %>
@@ -9,3 +9,8 @@
 
 <%= f.label :password_confirmation, "Confirm Password" %>
 <%= f.password_field :password_confirmation %>
+
+<% unless request.original_url == "http://localhost:3000/signup" %>
+Email when followed:<%= f.check_box :follower_email %>
+<br>
+<% end %>

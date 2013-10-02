@@ -7,7 +7,7 @@
     <%= form_tag(sessions_path) do %>
 
       <%= label(:session, :email) %>
-      <%= text_field(:session, :email) %>
+      <%= text_field(:session, :email, autofocus: true) %>
 
       <%= label(:session, :password) %>
       <%= password_field(:session, :password) %>
