@@ -10,7 +10,7 @@
 <%= f.label :password_confirmation, "Confirm Password" %>
 <%= f.password_field :password_confirmation %>
 
-<% unless request.original_url == "http://localhost:3000/signup" %>
+<% unless request.original_url == "http://#{Rails.root}/signup" %>
 Email when followed:<%= f.check_box :follower_email %>
 <br>
 <% end %>

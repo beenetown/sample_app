@@ -1,9 +1,13 @@
 <li id="<%= feed_item.id %>">
-  <%= link_to gravatar_for(feed_item.user), feed_item.user %>
+  <%= link_to gravatar_for(feed_item.user, size: 75), feed_item.user %>
   <span class="user">
     <%= link_to feed_item.user.name, feed_item.user %> 
+  </span>
+  <br>
+  <span class="message_links">
     <% unless current_user?(feed_item.user) %>  
-      | <%= link_to "Reply", "", "onclick" => "getName('\@#{feed_item.user.id.to_s}-#{feed_item.user.name.split.join('-')}')",  id: "replyLink", remote: true %>
+      <%= link_to "Reply", "", "onclick" => "replyName('\@#{feed_item.user.id.to_s}-#{feed_item.user.name.split.join('-')}')",  id: "replyLink", remote: true %>
+      | <%= link_to "Direct Message", "", "onclick" => "messageName('d#{feed_item.user.id.to_s}-#{feed_item.user.name.split.join('-')}')",  id: "messageLink", remote: true %>
     <% end %>
   </span>
   <span class="content"><%= wrap(feed_item.content) %></span>
